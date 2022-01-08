@@ -63,9 +63,15 @@ RSpec.describe Note, type: :model do
       # 検索結果が1件も見つからなければ空のコレクションを返すこと
       it "returns an empty collection when no results are found" do
         expect(Note.search("message")).to be_empty
-        expect(Note.count).to eq 3
       end
     end
   end
   
+  # 名前の取得をメモを作成したユーザーに委譲すること
+  it "delegates name to the user who created it" do
+    user = instance_double("User", name: "Fake User")
+    note = Note.new
+    allow(note).to receive(:user).and_return(user)
+    expect(note.user_name).to eq "Fake User"
+  end
 end

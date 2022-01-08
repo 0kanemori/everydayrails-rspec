@@ -26,6 +26,9 @@ RSpec.describe Project, type: :model do
     expect(other_project).to be_valid
   end
 
+  # 上記2つのテストを簡略化したもの
+  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id) }
+
   # たくさんのメモがついていること
   it "can have many notes" do
     project = FactoryBot.create(:project, :with_notes)

@@ -9,7 +9,7 @@ RSpec.describe TasksController, type: :controller do
             sign_in user
             get :show, format: :json,
                 params: { project_id: project.id, id: task.id }
-            expect(response).to have_content_type :html
+            expect(response).to have_content_type :json
         end
     end
     

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature "Notes", type: :feature do
     # ユーザーがノートを作成する
-    scenario "user toggles a task" do
+    scenario "user toggles a note" do
       user = FactoryBot.create(:user)
       project = FactoryBot.create(:project,
         name: "RSpec tutorial",

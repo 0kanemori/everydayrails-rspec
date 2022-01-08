@@ -56,7 +56,9 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # コントローラスペックでDeviseのテストヘルパーを使用する
+  Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+  # Deviseのヘルパーメソッドをテスト内で使用する
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include RequestSpecHelper, type: :request
 end
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

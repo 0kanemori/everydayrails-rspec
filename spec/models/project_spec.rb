@@ -49,4 +49,29 @@ RSpec.describe Project, type: :model do
 
     expect(other_project).to be_valid
   end
+
+  # たくさんのメモがついていること
+  it "can have many notes" do
+    project = FactoryBot.create(:project, :with_notes)
+    project.notes.each { |note| puts note.inspect }
+    expect(project.notes.length).to eq 5
+  end
+
+  # 締切日が過ぎていれば遅延していること
+  it "is late when the due date is past today" do
+    project = FactoryBot.create(:project, :due_yesterday)
+    expect(project).to be_late
+  end
+
+  # 締切日が今日ならスケジュール通りであること
+  it "is on time when the due date is today" do
+    project = FactoryBot.create(:project, :due_today)
+    expect(project).to_not be_late
+  end
+
+  # 締切日が未来ならスケジュール通りであること
+  it "is on time when the due date is in the future" do
+    project = FactoryBot.create(:project, :due_tomorrow)
+    expect(project).to_not be_late
+  end
 end

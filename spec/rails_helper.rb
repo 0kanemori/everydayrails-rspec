@@ -62,7 +62,7 @@ RSpec.configure do |config|
   # Deviseのヘルパーメソッドをテスト内で使用する
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include RequestSpecHelper, type: :request
-  config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.include Devise::Test::IntegrationHelpers, type: :system
 
   # テストスイートの実行が終わったらアップロードされたファイルを削除する
   config.after(:suite) do

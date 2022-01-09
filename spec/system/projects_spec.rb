@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Projects", type: :feature do
+RSpec.describe "Projects", type: :system do
   let(:user) { FactoryBot.create(:user) }
   let!(:project) { FactoryBot.create(:project, 
     name: "RSpec tutorial",

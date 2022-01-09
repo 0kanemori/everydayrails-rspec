@@ -39,9 +39,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.action_mailer.default_url_options = { host: 'example.com'}
 end
 
-# Keep files uploaded in tests from polluting the Rails development
-# environment's file uploads
+# テストでアップロードされたファイルが、開発環境でアップロードした
+# ファイルの中に混在しないようにする
 Paperclip::Attachment.default_options[:path] = \
   "#{Rails.root}/spec/test_uploads/:class/:id_partition/:style.:extension"

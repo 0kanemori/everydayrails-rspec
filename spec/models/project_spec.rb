@@ -52,4 +52,29 @@ RSpec.describe Project, type: :model do
     project = FactoryBot.create(:project, :due_tomorrow)
     expect(project).to_not be_late
   end
+
+  describe "showing and hiding projects" do
+    let(:user) { FactoryBot.create(:user) }
+    before do
+      @completed_project = FactoryBot.create(:project, 
+        name: "Completed Project",
+        completed: true,
+        owner: user
+      )
+      @incompleted_project = FactoryBot.create(:project, 
+        name: "Incompleted Project",
+        completed: false,
+        owner: user
+      )
+    end
+    # 完了済みプロジェクトだけが取得できること
+    it "is able to retrieve competed projects" do
+      expect(user.projects.complete(true)).to eq [@completed_project]
+    end
+  
+    # 完了済みでないプロジェクトが取得できること
+    it "is able to retrieve incompeted projects" do
+      expect(user.projects.complete([false, nil])).to eq [@incompleted_project]
+    end
+  end
 end

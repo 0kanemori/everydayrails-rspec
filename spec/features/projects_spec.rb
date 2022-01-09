@@ -36,6 +36,51 @@ RSpec.feature "Projects", type: :feature do
     end
   end
 
+  # ユーザーはプロジェクトを完了済みにする
+  scenario "user completes a project" do
+    user = FactoryBot.create(:user)
+    project = FactoryBot.create(:project, owner: user)
+    sign_in user
+
+    visit project_path(project)
+
+    expect(page).to_not have_content "Completed"
+
+    click_button "Complete"
+    expect(project.reload.completed?).to be true
+    expect(page).to \
+      have_content "Congratulations, this project is complete! "
+    expect(page).to have_content "Completed"
+    expect(page).to_not have_button "Complete"
+  end
+  
+  describe "showing and hiding projects" do
+    before do
+      FactoryBot.create(:project, 
+        name: "Completed Project",
+        owner: user, 
+        completed: true)
+      FactoryBot.create(:project, 
+        name: "Incompleted Project",
+        owner: user, 
+        completed: false)
+      sign_in user
+      visit root_path
+    end
+    # ダッシュボードで完了済みのプロジェクトは非表示になる
+    scenario "completed projects are hidden" do
+      expect(page).to_not have_content "Completed Project"
+      expect(page).to have_content "Incompleted Project"
+    end
+
+    # 完了済みのプロジェクトのみが表示されること
+    scenario "only completed projects are displayed" do
+      click_link "Completed project"
+      expect(page).to have_content "Completed Project"
+      expect(page).to_not have_content "Incompleted Project"
+    end
+  end
+
   def go_to_project(name)
     visit root_path
     click_link name

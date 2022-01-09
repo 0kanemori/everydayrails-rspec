@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Reset Password", type: :feature do
+RSpec.describe "Reset Password", type: :system do
   include ActiveJob::TestHelper
 
   # ユーザーはパスワードリセットメールを受け取る
